@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Parser
 {
-    public static boolean tokenFlag = false;
+    public static boolean tokenFlag = true;
 
     public static void main( String [] args ) throws IOException
     {
@@ -75,10 +75,11 @@ public class Parser
         for(int i = 0; i<newexp.size();i++)
         {
             System.out.println("Opperation = "+newexp.get(i)+"\n");
-            System.out.print(expops.letter(newexp.get(i))+"\n");
+            System.out.print(expops.id(newexp.get(i))+"\n");
+            /*
             System.out.print(expops.mulop(newexp.get(i))+"\n");
             System.out.print(expops.digit(newexp.get(i))+"\n");
-            System.out.print(expops.addop(newexp.get(i))+"\n");
+            System.out.print(expops.addop(newexp.get(i))+"\n");*/
             System.out.println("-------------------------------\n");
         }
     }
