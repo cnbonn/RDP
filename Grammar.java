@@ -32,9 +32,11 @@ public class Grammar
         String[] arr;       
  
         System.out.println("expr: " + s);
-    
+        if( s.charAt(0) == '+' )
+	    return false; 
+ 
 	// test for operator
-	if( op == '+' || op == '-' )
+	if( (op == '+' || op == '-') && s.charAt(0) != '-' )
 	{
             //check to see if another term is added
 	    switch(op)
@@ -66,7 +68,6 @@ public class Grammar
 	else
 	{
 	   //call factor
-	   System.out.println( "skip expr");
 	   exprFlag = term( s );
 	}
 	
@@ -80,6 +81,8 @@ public class Grammar
 	String[] arr;
 
 	System.out.println( "term: " + s );
+	if( isMultop(s.charAt(0)))
+		return false; 
 
 	if ( op == '*' || op == '/' || op == '%' )
 	{
@@ -124,7 +127,6 @@ public class Grammar
 	else
 	{
 	//call to factor
-	    System.out.println("skip term");
 	    termFlag = factor( s );
 	}
 	return termFlag;
@@ -156,21 +158,27 @@ public class Grammar
 	    fo = s.indexOf("(");
 	    lo = s.lastIndexOf(")");
 	    sub = s.substring(fo + 1, lo);
-	    }catch (StringIndexOutofBoundsException e){
+	    }catch (StringIndexOutOfBoundsException e){
 		return false;
 	    }
 	    factorFlag = expr( sub );
+	}
+	else if( s.charAt(0) == '-' )
+	{
+	    sub = s.substring(1 , s.length() );
+	    factorFlag = factor( sub );
 	}
 	return factorFlag;
     }
 
     public boolean id(String s)
     {
-	System.out.println( " in in" );
+	System.out.println( " in id" );
         boolean lFlag = false;
 	boolean dFlag = false;   
-	int d = 0;
-
+	char d = 0;
+        int o = 0;
+	
 	if( isLetter(s.charAt(0)) == false)
 	{
 	    return false;
@@ -180,8 +188,9 @@ public class Grammar
 	    lFlag = isLetter(s.charAt(i));
 	   
             try{
-                d = Integer.parseInt(s);
-		dFlag = isDigit( d );
+                d = s.charAt(i);
+		o = Integer.parseInt(s.valueOf( d ));
+		dFlag = isDigit( o );
             } catch (NumberFormatException e){
 	    }
 
