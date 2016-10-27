@@ -7,16 +7,30 @@ import java.util.*;
  */
 public class Grammar
 {
-
+    /**
+     * Global string that holds the expression
+     */
     protected String expression;   
+	
+    /**
+     * Global string that holds the original expression just in case the other
+     * gets changed at all
+     */
     protected String oExpression;
 
+    /**
+     * Fills the expression strings
+     * @param s
+     */
     public Grammar( String s )
     {
 	expression = s;
 	oExpression = s;
     }
 
+    /**
+     * Prints out whether the expression is valid or not 
+     */
     public void testGrammar()
     {
 	boolean grammarFlag = false;
@@ -29,7 +43,15 @@ public class Grammar
 	    System.out.println("\"" + oExpression + "\" is not a valid expression");
 	}
     }
-
+    
+    /**
+     * Checks if the expressions format is correct. It does this by first 
+     * looking for addops in the expression and if they are in the correct
+     * location it sets the exprFlag to true otherwise it stays false. It will
+     * then run the term function to see if the terms are correct.
+     * @param s
+     * @return
+     */
     public boolean expr( String s )
     {
 	boolean exprFlag = false;
