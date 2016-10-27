@@ -1,5 +1,10 @@
 import java.util.*;
 
+/**
+ * This class holds all the grammar functions. For checking whether the grammar
+ * of the users expression is correct or not
+ * @author 7110015
+ */
 public class Grammar
 {
 
