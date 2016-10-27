@@ -154,14 +154,37 @@ public class Grammar
         }
         else if( op == '(' )
 	{
-	    try{
-	    fo = s.indexOf("(");
-	    lo = s.lastIndexOf(")");
-	    sub = s.substring(fo + 1, lo);
-	    }catch (StringIndexOutOfBoundsException e){
+	    int count = 0;
+	    if( s.charAt(0) != '(' )
 		return false;
+	
+	    for( int i = 0; i < s.length(); i++)
+	    {
+		//find beginning and end
+		if( s.charAt(i) == '(' )
+		{
+		   count++;
+		}
+		else if( s.charAt(i) == ')' )
+		{
+		    count--;
+		}
+
+                //if the end is found it is an expression
+		if( s.charAt(i) == ')' && count == 0 )
+		{
+		    try{
+		    fo = s.indexOf("(");
+		    lo = i;
+		    System.out.println("end peren at: " + i);
+		    sub = s.substring(fo + 1, lo);
+	            }catch (StringIndexOutOfBoundsException e){
+		        return false;
+	            }
+	            factorFlag = expr( sub );
+		    break;
+                }
 	    }
-	    factorFlag = expr( sub );
 	}
 	else if( s.charAt(0) == '-' )
 	{
