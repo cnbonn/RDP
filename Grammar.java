@@ -12,88 +12,196 @@ public class Grammar
 	oExpression = s;
     }
 
-    public boolean testGrammar()
+    public void testGrammar()
     {
-	expr();
-	return false;
+	boolean grammarFlag = false;
+        if( expr( expression ) )
+	{
+	    System.out.println("\"" + oExpression + "\" is a valid expression");
+	}
+	else
+	{
+	    System.out.println("\"" + oExpression + "\" is not a valid expression");
+	}
     }
 
-    public boolean expr()
+    public boolean expr( String s )
     {
-	System.out.println( "XP: " + getOp() );
-	char op = getOp();
-
+	boolean exprFlag = false;
+	char op = getOp( s );
+        String[] arr;       
+ 
+        System.out.println("expr: " + s);
+    
+	// test for operator
 	if( op == '+' || op == '-' )
 	{
-	  //check to see if another term is added
-	    String[] arr = expression.split("\\+",2);
-	    for (String a: arr)
+            //check to see if another term is added
+	    switch(op)
 	    {
-		System.out.println(":: " + a );
+		case '+':
+		    arr = s.split("\\+",2);
+		    if( isAddop(getOp(arr[1])) == true && expr(arr[1]) == true )
+		    {
+			exprFlag = true;
+		    } 
+		    else if( term(arr[0]) == true && term(arr[1]) == true)
+		    {
+			exprFlag = true;
+                    }
+		    break;
+		case '-':
+		    arr = s.split("\\-",2);
+		    if( isAddop(getOp(arr[1])) == true && expr(arr[1]) == true )
+		    {
+			exprFlag = true;
+		    }
+		    else if( term(arr[0]) == true && term(arr[1]) == true)
+                    {
+			exprFlag = true;
+		    }
+	            break;
 	    }
-	    System.out.println("expr");
 	}
 	else
 	{
 	   //call factor
-	   System.out.println("pass expr");
-	   term();
+	   System.out.println( "skip expr");
+	   exprFlag = term( s );
 	}
 	
-	return false;
+	return exprFlag;
     }
 
-    public boolean term()
+    public boolean term( String s )
     {
-	char op = getOp();
+	boolean termFlag = false;
+	char op = getOp( s );
+	String[] arr;
+
+	System.out.println( "term: " + s );
+
 	if ( op == '*' || op == '/' || op == '%' )
 	{
 	// see if nother term
-	    System.out.println("term");
+	    switch(op)
+	    {
+		case '*':
+		     arr = s.split("\\*",2);
+		     if( isMultop(getOp(arr[1])) == true && term(arr[1]) == true )
+		     {
+			termFlag = true;
+		     } 
+		     if( factor(arr[0]) == true && factor(arr[1]) == true)
+		     {
+			termFlag = true;
+		     }
+		    break;
+		case '/':
+		    arr = s.split("\\/",2);
+	             if( isMultop(getOp(arr[1])) == true && term(arr[1]) == true )
+		     {
+			termFlag = true;
+		     }
+		     if( factor(arr[0]) == true && factor(arr[1]) == true)
+		     {
+			termFlag = true;
+		     }
+		    break;
+	    	case '%':
+		     arr = s.split("\\%",2);
+		     if( isMultop(getOp(arr[1])) == true && term(arr[1]) == true )
+		     {
+			termFlag = true;
+		     }
+                     if( factor(arr[0]) == true && factor(arr[1]) == true)
+		     {
+			termFlag = true;
+		     }
+	            break;
+	    }
 	}
 	else
 	{
 	//call to factor
-	    System.out.println("pass term");
-	    factor();
+	    System.out.println("skip term");
+	    termFlag = factor( s );
 	}
-	return false;
+	return termFlag;
     }
 
-    public boolean factor()
+    public boolean factor( String s)
     {
-	char op = getOp();
-	if( isInteger( expression ) )
+	System.out.println("factor: " + s );
+	int fo, lo;
+	String sub;
+
+	boolean factorFlag = false;
+	char op = getOp(s);
+	if( isInteger( s ) )
 	{
-	    System.out.println( "integer" );
+	    factorFlag = true;
 	}
-        else if ( isFloat( expression ) )
+        else if( isFloat( s ) )
 	{
-	    System.out.println( "Float" );
+	    factorFlag = true;
 	}
-	else if ( id( expression ) )
+	else if( id( s ) )
         {
-	    System.out.println( "ID" );
+	    factorFlag = true;
         }
-	return false;
+        else if( op == '(' )
+	{
+	    try{
+	    fo = s.indexOf("(");
+	    lo = s.lastIndexOf(")");
+	    sub = s.substring(fo + 1, lo);
+	    }catch (StringIndexOutofBoundsException e){
+		return false;
+	    }
+	    factorFlag = expr( sub );
+	}
+	return factorFlag;
     }
 
     public boolean id(String s)
     {
-	//test first char to make a char
-	char[] x = new char[s.length()];
+	System.out.println( " in in" );
+        boolean lFlag = false;
+	boolean dFlag = false;   
+	int d = 0;
+
+	if( isLetter(s.charAt(0)) == false)
+	{
+	    return false;
+        } 
+	for( int i = 0; i < s.length(); i++)
+        {
+	    lFlag = isLetter(s.charAt(i));
+	   
+            try{
+                d = Integer.parseInt(s);
+		dFlag = isDigit( d );
+            } catch (NumberFormatException e){
+	    }
+
+	    if( dFlag == false && lFlag == false)
+	    {
+		return false;
+            }
+	}	
 
 	//test rest to make sure int or letter
-	return false;
+	return true;
     }
 
     public boolean isInteger(String s)
     {
-       System.out.println("is int");
-       int d;
-       try{
-       d = Integer.parseInt(s);
-       } catch (NumberFormatException e){  
+
+        int d;
+        try{
+           d = Integer.parseInt(s);
+        } catch (NumberFormatException e){
 	return false;
 	}
 
@@ -109,7 +217,6 @@ public class Grammar
  
     public boolean isDigit(int i)
     {
-	System.out.println("is digit");
 	return (Integer.toString(i).matches("[0-9]"));
     }
  
@@ -117,22 +224,23 @@ public class Grammar
     {
 
 	String arr[] = s.split("\\.");
+	boolean floatFlag = false;
 	try{
 	if( isInteger(arr[0]) && isInteger(arr[1]) )
 	{
-	    System.out.println("is float");	
+	    floatFlag = true;	
 	}} catch (ArrayIndexOutOfBoundsException e){
 		return false;
 	}
-	return true;
+	return floatFlag;
     }
 
-    public char getOp()
+    public char getOp(String segment)
     {
 
-        for(int i = 0; i < expression.length(); i++)
+        for(int i = 0; i < segment.length(); i++)
         {
-	    switch( expression.charAt(i) )
+	    switch( segment.charAt(i) )
 	    {
 		case '+':
 		    return '+';
@@ -142,6 +250,8 @@ public class Grammar
 		    return '*';
 		case '/':
 		    return '/';
+		case '%':
+		    return '%';
 		case '(':
 		    return '(';
 		case ')':
@@ -152,5 +262,16 @@ public class Grammar
 	
 	return 'x';
     }
-    
+    public boolean isAddop(char c)
+    {
+    	return (Character.toString(c).matches("[+-]"));
+    }	  
+
+    public boolean isMultop(char c)
+    {
+	return (Character.toString(c).matches("[*/%]"));
+    }
+   
 }
+
+

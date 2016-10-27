@@ -28,12 +28,11 @@ public class Scan
             {
 		//System.out.println( "expression: " + expression );
 		expression = removeWhiteSpace(expression);
-		System.out.println("after ws: " + expression);
-                splitExpression(expression);
+                //splitExpression(expression);
                 
 		Grammar grammar = new Grammar( expression );
-		grammar.testGrammar() ;
-		
+		grammar.testGrammar();
+
 		if( tokenFlag == true )
                 {
                 }
@@ -58,7 +57,7 @@ public class Scan
     public String removeWhiteSpace(String expression)
     {
 	expression = expression.replaceAll("\\s","");
-	System.out.println("expression: " + expression);
+	//System.out.println("expression: " + expression);
         return expression;
     }
 }
