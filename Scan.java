@@ -3,7 +3,7 @@ import java.util.*;
 
 /**
  * This class deals with the user inputted expression.
- * @author 7110015
+ * @author Charles Bonn and Lyndon Engel
  */
 public class Scan
 {
