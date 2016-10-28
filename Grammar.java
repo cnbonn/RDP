@@ -172,7 +172,17 @@ public class Grammar
 	}
 	return termFlag;
     }
-
+	
+     /**
+     * Checks if the grammar of factor is correct. It does this by running the 
+     * isInteger, ifFloat, and id functions. If it passes one of those it 
+     * returns true. If not it then checks if the factor is a parentheses if it
+     * is it then it runs the expression function on the substring inside the
+     * parentheses to check if its true. If it passes all those tests it returns
+     * true.
+     * @param s
+     * @return
+     */
     public boolean factor( String s)
     {
 	int fo, lo;
@@ -254,6 +264,14 @@ public class Grammar
 	return factorFlag;
     }
 
+    /**
+     * Checks if the id is valid. It does this by first checking if the starting
+     * character is a letter. If it is then it continues to make sure the rest 
+     * of the string contains letters and digits. It will then return true or 
+     * false depending on if it passed all the tests.
+     * @param s
+     * @return
+     */
     public boolean id(String s)
     {
 	System.out.println( " in id: " + s );
@@ -287,6 +305,11 @@ public class Grammar
 	return true;
     }
 
+    /**
+     * Checks if the string contains only digits. 
+     * @param s
+     * @return
+     */
     public boolean isInteger(String s)
     {
         boolean intFlag = false;
@@ -309,17 +332,32 @@ public class Grammar
        return intFlag;
     }
  
+    /**
+     * Checks if the character is a letter using regex. 
+     * @param c
+     * @return
+     */
     public boolean isLetter(char c)
     {
 	return (Character.toString(c).matches("[a-zA-Z_]"));
     }
  
- 
+    /**
+     * Checks if the vale is a digit of 0-9 using regex.
+     * @param i
+     * @return
+     */
     public boolean isDigit(int i)
     {
 	return (Integer.toString(i).matches("[0-9]"));
     }
- 
+
+    /**
+     * Checks if the string is a float. It does this by splitting the string 
+     * at the '.' and then checking if both sides are integers. 
+     * @param s
+     * @return
+     */
     public boolean isFloat(String s)
     {
 
@@ -334,7 +372,12 @@ public class Grammar
 	}
 	return floatFlag;
     }
-
+    
+    /**
+     * returns the operator at a point in the string
+     * @param segment
+     * @return
+     */
     public char getOp(String segment)
     {
 
@@ -362,11 +405,22 @@ public class Grammar
 	
 	return 'x';
     }
+	
+    /**
+     * Checks if the character is a '+' or '-' using regex matches. 
+     * @param c
+     * @return
+     */
     public boolean isAddop(char c)
     {
     	return (Character.toString(c).matches("[+-]"));
     }	  
-
+    
+    /**
+     * Checks if the character is a '*' , '/' , or '%' using regex matches. 
+     * @param c
+     * @return
+     */
     public boolean isMultop(char c)
     {
 	return (Character.toString(c).matches("[*/%]"));
