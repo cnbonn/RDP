@@ -1,17 +1,36 @@
 import java.util.*;
 
+/**
+ * This class holds all the grammar functions. For checking whether the grammar
+ * of the users expression is correct or not
+ * @author 7110015
+ */
 public class Grammar
 {
-
+    /**
+     * Global string that holds the expression
+     */
     protected String expression;   
+	
+    /**
+     * Global string that holds the original expression just in case the other
+     * gets changed at all
+     */
     protected String oExpression;
 
+    /**
+     * Fills the expression strings
+     * @param s
+     */
     public Grammar( String s )
     {
 	expression = s;
 	oExpression = s;
     }
 
+    /**
+     * Prints out whether the expression is valid or not 
+     */
     public void testGrammar()
     {
 	boolean grammarFlag = false;
@@ -24,7 +43,15 @@ public class Grammar
 	    System.out.println("\"" + oExpression + "\" is not a valid expression");
 	}
     }
-
+    
+    /**
+     * Checks if the expressions format is correct. It does this by first 
+     * looking for addops in the expression and if they are in the correct
+     * location it sets the exprFlag to true otherwise it stays false. It will
+     * then run the term function to see if the terms are correct.
+     * @param s
+     * @return
+     */
     public boolean expr( String s )
     {
 	boolean exprFlag = false;
@@ -79,7 +106,16 @@ public class Grammar
 	
 	return exprFlag;
     }
-
+	
+    /**
+     * Checks whether the grammar of the term is correct. It does this by 
+     * first checking if the term starts with mulop, if it does then it 
+     * returns false. Else it will check if there is another term. It will
+     * then run the factor function to make sure those are correct. If it
+     * passes all those tests it will then return true. 
+     * @param s
+     * @return
+     */
     public boolean term( String s )
     {
 	boolean termFlag = false;

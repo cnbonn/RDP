@@ -1,14 +1,29 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * This class deals with the user inputted expression.
+ * @author 7110015
+ */
 public class Scan
 {
+    /**
+     * Function that checks the tokenFlag
+     * @param tokenFlag
+     */
     public Scan( boolean tokenFlag )
     {
 	System.out.println( "in scan");
 	readInput( tokenFlag );
     }
 
+    /**
+     * This function reads in the users expression and then places it into a
+     * string. After that is done, it then removes the whitespace from the
+     * expression and checks the grammar of it. It will continue to do this
+     * until the user enters in a blank line.
+     * @param tokenFlag
+     */
     public void readInput( boolean tokenFlag )
     {
 	boolean exit = false;
@@ -41,6 +56,11 @@ public class Scan
 	}
     }
 
+    /**
+     * Function that prints out the tokens of the expression if tokenFlag is
+     * true.
+     * @param expression
+     */
     public void splitExpression(String expression)
     {
         String delims = "+-*%()";
@@ -55,6 +75,11 @@ public class Scan
 	
     }
     
+    /**
+     * The function that removes spaces from the user inputted expression
+     * @param expression
+     * @return
+     */
     public String removeWhiteSpace(String expression)
     {
 	expression = expression.replaceAll("\\s","");
