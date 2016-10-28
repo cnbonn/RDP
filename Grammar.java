@@ -100,7 +100,16 @@ public class Grammar
 	
 	return exprFlag;
     }
-
+	
+    /**
+     * Checks whether the grammar of the term is correct. It does this by 
+     * first checking if the term starts with mulop, if it does then it 
+     * returns false. Else it will check if there is another term. It will
+     * then run the factor function to make sure those are correct. If it
+     * passes all those tests it will then return true. 
+     * @param s
+     * @return
+     */
     public boolean term( String s )
     {
 	boolean termFlag = false;
