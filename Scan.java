@@ -35,6 +35,7 @@ public class Scan
 
 		if( tokenFlag == true )
                 {
+		    splitExpression( expression );
                 }
 	    }
 	}

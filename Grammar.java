@@ -28,15 +28,21 @@ public class Grammar
     public boolean expr( String s )
     {
 	boolean exprFlag = false;
-	char op = getOp( s );
         String[] arr;       
  
-        System.out.println("expr: " + s);
         if( s.charAt(0) == '+' )
 	    return false; 
  
+	//test for negitive, remove negitive
+	if( s.charAt(0) == '-' )
+	{
+	    s = s.substring(1,s.length());
+	}
+
+	char op = getOp( s );
+	
 	// test for operator
-	if( (op == '+' || op == '-') && s.charAt(0) != '-' )
+	if( (op == '+' || op == '-') )
 	{
             //check to see if another term is added
 	    switch(op)
@@ -80,7 +86,6 @@ public class Grammar
 	char op = getOp( s );
 	String[] arr;
 
-	System.out.println( "term: " + s );
 	if( isMultop(s.charAt(0)))
 		return false; 
 
@@ -134,9 +139,8 @@ public class Grammar
 
     public boolean factor( String s)
     {
-	System.out.println("factor: " + s );
 	int fo, lo;
-	String sub;
+	String sub, rest = "";
 
 	boolean factorFlag = false;
 	char op = getOp(s);
@@ -178,10 +182,30 @@ public class Grammar
 		    lo = i;
 		    System.out.println("end peren at: " + i);
 		    sub = s.substring(fo + 1, lo);
+		
+		    if( lo != s.length() )
+		    rest = s.substring(lo+1, s.length() );
+
 	            }catch (StringIndexOutOfBoundsException e){
 		        return false;
 	            }
-	            factorFlag = expr( sub );
+		
+		    if( expr( sub ) == true ) 
+	            {
+			
+			if( !rest.isEmpty() )
+			{
+			    if( isMultop( rest.charAt(0) ) == true || isAddop( rest.charAt(0) ) == true )
+			    {
+				rest = rest.substring(1, rest.length() );
+				if( expr( rest ) == true )
+				    return true;
+			    }
+			    return false;
+			}
+			return true;
+			
+		    }
 		    break;
                 }
 	    }
@@ -196,7 +220,7 @@ public class Grammar
 
     public boolean id(String s)
     {
-	System.out.println( " in id" );
+	System.out.println( " in id: " + s );
         boolean lFlag = false;
 	boolean dFlag = false;   
 	char d = 0;
@@ -229,16 +253,24 @@ public class Grammar
 
     public boolean isInteger(String s)
     {
-
+        boolean intFlag = false;
         int d;
-        try{
-           d = Integer.parseInt(s);
-        } catch (NumberFormatException e){
-	return false;
-	}
+	char c;
 
+	for( int i = 0; i < s.length(); i++ )
+        {
+            try{
+	       c = s.charAt(i);
+               d = Integer.parseInt(s.valueOf( c ));
+	       intFlag = isDigit( d );
+            } catch (NumberFormatException e){
+	    return false;
+	    }
+	    if( intFlag == false )
+		return false;
+	}
        
-       return isDigit( d );
+       return intFlag;
     }
  
     public boolean isLetter(char c)
